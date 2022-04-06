@@ -3,6 +3,9 @@ const statusResponse = require('../config/statusResponse')
 const { Router } = require('express')
 const productsRouter = Router()
 
+const isAdmin = require('../middlewares/users/validRolUser')
+const rolAdmin = false
+
 productsRouter
     .get('/', async (req, res) => {
         try{
@@ -23,7 +26,7 @@ productsRouter
         }
     })
 
-    .post('/', async (req, res) => {
+    .post('/', isAdmin(rolAdmin), async (req, res) => {
         try{
             const product = await productsController.saveProduct(req.body)
             res.status(statusResponse.httpCreated).json({product})
@@ -32,7 +35,7 @@ productsRouter
         }
     })
 
-    .put('/:id', async (req, res) => {
+    .put('/:id', isAdmin(rolAdmin), async (req, res) => {
         try{
             const product = await productsController.updateProduct(req.body, req.params.id)
             if (product) res.status(statusResponse.httpOk).json({product})
@@ -42,7 +45,7 @@ productsRouter
         }
     })
 
-    .delete('/:id', async (req, res) => {
+    .delete('/:id', isAdmin(rolAdmin), async (req, res) => {
         try{
             const product = await productsController.deleteProduct(req.params.id)
             if (product) res.status(statusResponse.httpOk).json({product})

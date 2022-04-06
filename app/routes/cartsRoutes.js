@@ -3,8 +3,11 @@ const statusResponse = require('../config/statusResponse')
 const { Router } = require('express')
 const cartsRouter = Router()
 
+const isAdmin = require('../middlewares/users/validRolUser')
+const rolAdmin = false
+
 cartsRouter
-    .get('/', async (req, res) => {
+    .get('/', isAdmin(rolAdmin), async (req, res) => {
         try{
             const carts = await cartsController.allCarts()
             res.status(statusResponse.httpOk).json({carts})
@@ -13,7 +16,7 @@ cartsRouter
         }
     })
 
-    .get('/:id', async (req, res) => {
+    .get('/:id', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.cartById(req.params.id)
             if (cart) res.status(statusResponse.httpOk).json({cart})
@@ -23,7 +26,7 @@ cartsRouter
         }
     })
 
-    .get('/:id/productos', async (req, res) => {
+    .get('/:id/productos', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.cartById(req.params.id)
             if (cart) res.status(statusResponse.httpOk).json({
@@ -35,7 +38,7 @@ cartsRouter
         }
     })
     
-    .post('/', async (req, res) => {
+    .post('/', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.saveCart()
             res.status(statusResponse.httpCreated).json({cart})
@@ -44,7 +47,7 @@ cartsRouter
         }
     })
 
-    .post('/:id/productos', async (req, res) => {
+    .post('/:id/productos', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.saveProductInCart(req.body.id_producto, req.params.id)
             if (cart) res.status(statusResponse.httpCreated).json({cart})
@@ -54,7 +57,7 @@ cartsRouter
         }
     })
 
-    .delete('/:id', async (req, res) => {
+    .delete('/:id', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.deleteCart(req.params.id)
             if (cart) res.status(statusResponse.httpOk).json({cart})
@@ -64,7 +67,7 @@ cartsRouter
         }
     })
 
-    .delete('/:id/productos/:idProd', async (req, res) => {
+    .delete('/:id/productos/:idProd', isAdmin(rolAdmin), async (req, res) => {
         try{
             const cart = await cartsController.deleteProductInCart(req.params.idProd, req.params.id)
             if (cart) res.status(statusResponse.httpOk).json({cart})
