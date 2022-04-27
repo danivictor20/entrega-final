@@ -1,4 +1,4 @@
-const cartModel = require('../models/cartsModel')
+const cartModel = require('../daos/cartsDAO')
 class CartsController{
 
     async allCarts(){

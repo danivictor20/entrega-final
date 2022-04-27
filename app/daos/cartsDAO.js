@@ -1,6 +1,6 @@
 const { promises: fs } = require('fs')
 const moment = require('moment')
-const productModel = require('./productsModel')
+const productModel = require('./productsDAO')
 
 class Carts{
     constructor(){

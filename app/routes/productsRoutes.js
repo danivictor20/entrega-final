@@ -4,7 +4,7 @@ const statusResponse = require('http-status');
 const productsRouter = Router()
 
 const isAdmin = require('../middlewares/users/validRolUser')
-const rolAdmin = false
+const rolAdmin = true
 
 productsRouter
     .get('/', async (req, res) => {

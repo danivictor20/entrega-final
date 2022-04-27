@@ -1,4 +1,4 @@
-const productModel = require('../models/productsModel')
+const productModel = require('../daos/productsDAO')
 class ProductsController{
 
     async allProducts(){
